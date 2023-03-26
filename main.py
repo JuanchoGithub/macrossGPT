@@ -1,8 +1,9 @@
 import subprocess
 import pygame
+import os
 
 def start_game():
-    subprocess.Popen(["python", "macross .py"])
+    subprocess.Popen(["python", "character_select.py"])
     os._exit(0)
 
 # Initialize Pygame

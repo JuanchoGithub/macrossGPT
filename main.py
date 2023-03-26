@@ -1,4 +1,9 @@
+import subprocess
 import pygame
+
+def start_game():
+    subprocess.Popen(["python", "macross .py"])
+    os._exit(0)
 
 # Initialize Pygame
 pygame.init()
@@ -25,11 +30,11 @@ font = pygame.font.Font(None, 48)
 # Create the menu options
 new_game_text = font.render('NEW GAME', True, (255, 255, 255))
 new_game_rect = new_game_text.get_rect()
-new_game_rect.center = (window_size[0] // 2, window_size[1] // 2 + 100)
+new_game_rect.center = (window_size[0] // 2, window_size[1] // 2 + 120)
 
 quit_game_text = font.render('QUIT GAME', True, (255, 255, 255))
 quit_game_rect = quit_game_text.get_rect()
-quit_game_rect.center = (window_size[0] // 2, window_size[1] // 2 + 150)
+quit_game_rect.center = (window_size[0] // 2, window_size[1] // 2 + 170)
 
 # Create the copyright text
 copyright_text = font.render('copyright Truchisoft LLC - made with AI',
@@ -38,8 +43,10 @@ copyright_rect = copyright_text.get_rect()
 copyright_rect.bottomright = (window_size[0] - 10, window_size[1] - 10)
 
 # Load the music and play it
-#pygame.mixer.music.load('music.mp3')
-#pygame.mixer.music.play(-1)
+# Load the MIDI file
+pygame.mixer.music.load("./mus/theme.wav")
+# Play the MIDI file
+pygame.mixer.music.play()
 
 # Set up the clock for the game loop
 clock = pygame.time.Clock()
@@ -57,6 +64,7 @@ while True:
             # Check if the user clicked on the menu options
             if new_game_rect.collidepoint(event.pos):
                 print('Starting new game')
+                start_game()
             elif quit_game_rect.collidepoint(event.pos):
                 pygame.quit()
                 quit()

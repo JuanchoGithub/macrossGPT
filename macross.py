@@ -42,12 +42,20 @@ def spawn_enemies(enemies):
         all_sprites.add(enemy)
         enemies.add(enemy)
 
+def draw_score(score):
+    text_surface = pygame.font.SysFont("sans-serif", 22).render("Score: " + str(score), False, (55, 55,   255))
+    pygame.draw.rect(screen, (255, 255, 255), (0, 0, 100, 30))
+    screen.blit(text_surface, (0, 0))
+
+
+
 
 # Set up game loop
 running = True
 clock = pygame.time.Clock()
 
 # Other variables
+score = 0
 time = 0
 while running:
     # Handle events
@@ -63,10 +71,12 @@ while running:
     # Update game state
     all_sprites.update() 
     for enemy in enemies:
-        if enemy.rect.x < 0 or enemy.rect.y > screen.get_height() + 50 or enemy.rect.y < -50:
+        if enemy.rect.x < -50 or enemy.rect.y > screen.get_height() + 50 or enemy.rect.y < -50:
             enemies.remove(enemy)
             all_sprites.remove(enemy)
     
+    
+
     # Check for collisions
     hits = pygame.sprite.groupcollide(enemies, bullets, True, True)
     for hit in hits:
@@ -74,6 +84,7 @@ while running:
         #all_sprites.add(enemy)
         #enemies.add(enemy)
         all_sprites.add(Explosion(hit.rect.x, hit.rect.y))
+        score += 1
     
     hits = pygame.sprite.spritecollide(player, enemies, False) 
     if hits:
@@ -87,6 +98,7 @@ while running:
 
 
     all_sprites.draw(screen)
+    draw_score(score)
     
     # Flip display
     pygame.display.flip()
